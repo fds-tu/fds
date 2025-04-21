@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.base;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.base;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Temporal;

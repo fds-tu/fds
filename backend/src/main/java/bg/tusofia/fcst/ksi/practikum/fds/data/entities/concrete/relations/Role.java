@@ -1,8 +1,8 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.relations;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations;
 
-import bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.authentication.User;
-import bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.resources.Restaurant;
-import bg.tusofia.fcst.ksi.practikum.fds.entities.base.relations.ManyToMany;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Restaurant;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.relations.ManyToMany;
 import bg.tusofia.fcst.ksi.practikum.fds.enums.authorization.AccessType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

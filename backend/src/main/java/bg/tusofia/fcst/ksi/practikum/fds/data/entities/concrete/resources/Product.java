@@ -1,8 +1,7 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.resources;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources;
 
-import bg.tusofia.fcst.ksi.practikum.fds.entities.base.BaseResourceEntity;
-import bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.relations.ProductToAllergen;
-import bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.relations.Role;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.BaseResourceEntity;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.ProductToAllergen;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 

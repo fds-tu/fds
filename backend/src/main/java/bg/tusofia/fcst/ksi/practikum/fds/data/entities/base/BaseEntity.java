@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.base;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.base;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,4 +16,12 @@ public abstract class BaseEntity<ID> implements Serializable {
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+
+    public ID getId() {
+        return id;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 }

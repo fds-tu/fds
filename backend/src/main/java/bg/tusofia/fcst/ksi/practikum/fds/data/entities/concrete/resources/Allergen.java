@@ -1,6 +1,6 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.resources;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources;
 
-import bg.tusofia.fcst.ksi.practikum.fds.entities.base.BaseEntity;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;

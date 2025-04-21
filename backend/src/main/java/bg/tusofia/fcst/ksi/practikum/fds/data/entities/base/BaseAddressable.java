@@ -1,6 +1,6 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.base;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.base;
 
-import bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.resources.address.Address;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.address.Address;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MappedSuperclass;

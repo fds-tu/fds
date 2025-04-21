@@ -1,6 +1,6 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.base.relations;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.relations;
 
-import bg.tusofia.fcst.ksi.practikum.fds.entities.base.BaseEntity;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.BaseEntity;
 import jakarta.persistence.*;
 
 @MappedSuperclass

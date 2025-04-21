@@ -1,7 +1,7 @@
-package bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.resources;
+package bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources;
 
-import bg.tusofia.fcst.ksi.practikum.fds.entities.base.BaseAddressable;
-import bg.tusofia.fcst.ksi.practikum.fds.entities.concrete.authentication.User;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.BaseAddressable;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.enums.delivery.DeliveryStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
