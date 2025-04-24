@@ -1,28 +1,22 @@
 package bg.tusofia.fcst.ksi.practikum.fds.data.entities.base;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @MappedSuperclass
 public abstract class BaseResourceEntity<T> extends BaseEntity<T> {
     @CreatedBy
     private String createdBy;
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
     @LastModifiedBy
     private String lastModifiedBy;
 
-    @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private Timestamp lastModifiedDate;
 }
