@@ -1,12 +1,13 @@
 package bg.tusofia.fcst.ksi.practikum.fds.globals;
 
-import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.entities.ErrorResponseEntity;
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.ExceptionDto;
+import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.entities.ErrorResponseEntity;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.FdsRestException;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.InvalidResourceException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,15 +51,21 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ErrorResponseEntity<ExceptionDto> handleException(DataIntegrityViolationException ex) {
+        return this.handleException(new FdsRestException("DataIntegrityViolationException", "Could not execute SQL statement", HttpStatus.BAD_REQUEST, null));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public ErrorResponseEntity<ExceptionDto> handleException(Exception ex) {
         return this.handleException(new FdsRestException("Exception", ex.getMessage(), HttpStatus.BAD_REQUEST, null));
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     public ErrorResponseEntity<ExceptionDto> handleException(RuntimeException ex) {
-        return this.handleException(new FdsRestException("RuntimeException", ex.getMessage(), HttpStatus.BAD_REQUEST, null));
+        return this.handleException(new FdsRestException("RuntimeException", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null));
     }
 
     @ExceptionHandler(FdsRestException.class)
