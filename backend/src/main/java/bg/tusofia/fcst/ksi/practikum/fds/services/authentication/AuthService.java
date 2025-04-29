@@ -8,18 +8,21 @@ import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.InvalidResourceExceptio
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.ResourceNotFoundException;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.RefreshTokenRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.SessionRepository;
-import bg.tusofia.fcst.ksi.practikum.fds.repositories.UserRepository;
+import bg.tusofia.fcst.ksi.practikum.fds.repositories.user.UserJpaRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userJpaRepository;
     private final SessionRepository sessionRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
@@ -27,13 +30,13 @@ public class AuthService {
 
     public TokenPair signup(User user, String ipv4Address) {
         user.encodePassword(passwordEncoder::encode);
-        userRepository.save(user);
+        userJpaRepository.save(user);
 
         return createSessionAndTokens(user, ipv4Address);
     }
 
     public TokenPair login(String username, String password, String ipv4Address) {
-        User user = userRepository.findByUsername(username)
+        User user = userJpaRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidResourceException("Credentials"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
@@ -70,6 +73,17 @@ public class AuthService {
         Session session = jwtService.getCurrentSessionOrCreate(user, ipAddress);
 
         return rotateTokens(user, session);
+    }
+
+    public User getCurrentUser(HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        if (principal instanceof Authentication) {
+            Object userDetails = ((Authentication) principal).getPrincipal();
+            if (userDetails instanceof User) {
+                return (User) userDetails;
+            }
+        }
+        throw new ResourceNotFoundException("Current User", "token", "");
     }
 
     private TokenPair rotateTokens(User user, Session session) {

@@ -1,6 +1,6 @@
 package bg.tusofia.fcst.ksi.practikum.fds.enums.authorization;
 
-public enum AccessType {
+public enum RestaurantAccessType {
     ADMIN,
     COURIER
 }

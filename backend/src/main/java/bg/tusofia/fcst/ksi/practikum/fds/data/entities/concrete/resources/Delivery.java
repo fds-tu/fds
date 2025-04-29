@@ -13,8 +13,8 @@ public class Delivery extends BaseAddressable<Long> {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "delivery_to_product",
-        joinColumns = @JoinColumn(name = "left_id"),
-        inverseJoinColumns = @JoinColumn(name = "right_id")
+        joinColumns = @JoinColumn(name = "primary_id"),
+        inverseJoinColumns = @JoinColumn(name = "secondary_id")
     )
     private List<Product> product;
 
