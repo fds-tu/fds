@@ -9,7 +9,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "delivery_to_product", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"left_id", "right_id"})
+        @UniqueConstraint(columnNames = {"primary_id", "secondary_id"})
 })
 public class DeliveryToProduct extends ManyToMany<Delivery, Product> {
 }

@@ -22,8 +22,8 @@ public class Product extends BaseResourceEntity<Long> {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_to_allergen",
-            joinColumns = @JoinColumn(name = "right_id"),
-            inverseJoinColumns = @JoinColumn(name = "left_id")
+            joinColumns = @JoinColumn(name = "secondary_id"),
+            inverseJoinColumns = @JoinColumn(name = "primary_id")
     )
     private Set<ProductToAllergen> productToAllergens;
 
