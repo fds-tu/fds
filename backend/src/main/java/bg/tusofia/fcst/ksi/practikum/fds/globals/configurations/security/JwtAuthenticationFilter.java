@@ -3,7 +3,7 @@ package bg.tusofia.fcst.ksi.practikum.fds.globals.configurations.security;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.ResourceNotFoundException;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.SessionRepository;
-import bg.tusofia.fcst.ksi.practikum.fds.repositories.UserRepository;
+import bg.tusofia.fcst.ksi.practikum.fds.repositories.user.UserJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.services.authentication.JwtService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -22,12 +22,12 @@ import java.util.Collections;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final UserJpaRepository userJpaRepository;
     private final SessionRepository sessionRepository;
 
-    public JwtAuthenticationFilter(JwtService jwtService, UserRepository userRepository, SessionRepository sessionRepository) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserJpaRepository userJpaRepository, SessionRepository sessionRepository) {
         this.jwtService = jwtService;
-        this.userRepository = userRepository;
+        this.userJpaRepository = userJpaRepository;
         this.sessionRepository = sessionRepository;
     }
 
@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Long sessionId = claims.get("session_id", Long.class);
         Long refreshTokenId = claims.get("refresh_token_id", Long.class);
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId.toString()));
+        User user = userJpaRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId.toString()));
         jwtService.getSessionAndCheckToken(sessionId, refreshTokenId);
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
