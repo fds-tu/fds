@@ -8,6 +8,7 @@ import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantJpaRe
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.role.RoleJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.role.RolePagingRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.services.base.BaseService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,18 @@ public class RoleService extends BaseService<Role, Long, RoleJpaRepository, Role
     public RoleService(RoleJpaRepository jpaRepository, RolePagingRepository pagingRepository, BaseAuthorizer<Role> authorizer, RestaurantJpaRepository restaurantJpaRepository) {
         super(jpaRepository, pagingRepository, authorizer, "Role");
         this.restaurantJpaRepository = restaurantJpaRepository;
+    }
+
+    @Override
+    protected Role createResourceInternal(Role resource, HttpServletRequest request, List<Object> parentResources) {
+        Restaurant restaurant = (Restaurant) parentResources.getFirst();
+
+        restaurant.addRole(resource);
+
+        save(resource);
+        restaurantJpaRepository.save(restaurant);
+
+        return resource;
     }
 
     @Override

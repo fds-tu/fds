@@ -34,4 +34,8 @@ public class Restaurant extends BaseAddressable<Long> {
     public void removeRole(Role role) {
         roles.removeIf(r -> r.getPrimary().getId().equals(role.getPrimary().getId()));
     }
+
+    public void addProduct(Product product) {products.add(product);}
+
+    public void removeProduct(Product product) {products.removeIf(p -> p.getId().equals(product.getId()));}
 }

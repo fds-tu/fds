@@ -32,8 +32,6 @@ public class RoleController
         RolePagingRepository
                 > {
     private final UserService userService;
-    private final RestaurantService restaurantService;
-
 
     public RoleController(RoleService service, ModelMapper modelMapper, UserService userService, RestaurantService restaurantService) {
         super(
@@ -43,7 +41,6 @@ public class RoleController
                 List.of(restaurantService)
         );
         this.userService = userService;
-        this.restaurantService = restaurantService;
     }
 
 
@@ -59,7 +56,6 @@ public class RoleController
         newRole.setSecondary(restaurant);
 
         service.createResource(newRole, request, parentResources);
-        restaurantService.addRole(restaurant, newRole);
 
         return this.generateResponse(null, HttpStatus.CREATED);
     }

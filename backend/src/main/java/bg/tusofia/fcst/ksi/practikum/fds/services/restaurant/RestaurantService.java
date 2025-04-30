@@ -3,6 +3,7 @@ package bg.tusofia.fcst.ksi.practikum.fds.services.restaurant;
 import bg.tusofia.fcst.ksi.practikum.fds.authorizers.restaurant.RestaurantServiceAuthorizer;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.Role;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Product;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Restaurant;
 import bg.tusofia.fcst.ksi.practikum.fds.enums.authorization.RestaurantAccessType;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantJpaRepository;
@@ -40,6 +41,11 @@ public class RestaurantService extends BaseService<Restaurant, Long, RestaurantJ
 
     public void addRole(Restaurant restaurant, Role newRole) {
         restaurant.addRole(newRole);
+        save(restaurant);
+    }
+
+    public void addProduct(Restaurant restaurant, Product product) {
+        restaurant.addProduct(product);
         save(restaurant);
     }
 }
