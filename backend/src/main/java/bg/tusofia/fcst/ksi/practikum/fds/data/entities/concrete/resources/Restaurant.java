@@ -21,7 +21,7 @@ public class Restaurant extends BaseAddressable<Long> {
     @Size(min = 4, max = 15, message = "Restaurant name must have length between 4 and 15 characters")
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "secondary")
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)

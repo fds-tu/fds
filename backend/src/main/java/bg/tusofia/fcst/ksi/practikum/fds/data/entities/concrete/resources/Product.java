@@ -4,10 +4,15 @@ import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.BaseResourceEntity;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.ProductToAllergen;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
 public class Product extends BaseResourceEntity<Long> {
     @NotNull(message = "Product name cannot be null")
     @NotBlank(message = "Product name cannot be blank")
@@ -19,13 +24,8 @@ public class Product extends BaseResourceEntity<Long> {
     @Max(value = 2000, message = "Product weight must be at most 2 kg")
     private Integer weight;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "product_to_allergen",
-            joinColumns = @JoinColumn(name = "secondary_id"),
-            inverseJoinColumns = @JoinColumn(name = "primary_id")
-    )
-    private Set<ProductToAllergen> productToAllergens;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "primary")
+    private List<ProductToAllergen> productToAllergens = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
