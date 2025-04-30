@@ -6,8 +6,8 @@ import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.U
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.InvalidResourceException;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.RefreshTokenInvalidException;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.ResourceNotFoundException;
-import bg.tusofia.fcst.ksi.practikum.fds.repositories.RefreshTokenRepository;
-import bg.tusofia.fcst.ksi.practikum.fds.repositories.SessionRepository;
+import bg.tusofia.fcst.ksi.practikum.fds.repositories.auth.RefreshTokenRepository;
+import bg.tusofia.fcst.ksi.practikum.fds.repositories.auth.SessionRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

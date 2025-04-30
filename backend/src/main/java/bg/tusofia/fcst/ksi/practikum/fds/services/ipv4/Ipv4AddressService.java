@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.services;
+package bg.tusofia.fcst.ksi.practikum.fds.services.ipv4;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.controllers;
+package bg.tusofia.fcst.ksi.practikum.fds.controllers.restaurant;
 
 import bg.tusofia.fcst.ksi.practikum.fds.controllers.base.BaseRestController;
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.requests.resources.roles.CreateRoleRequest;
@@ -6,9 +6,9 @@ import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.Role;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Restaurant;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.role.RoleJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.role.RolePagingRepository;
-import bg.tusofia.fcst.ksi.practikum.fds.services.RestaurantService;
-import bg.tusofia.fcst.ksi.practikum.fds.services.RoleService;
-import bg.tusofia.fcst.ksi.practikum.fds.services.UserService;
+import bg.tusofia.fcst.ksi.practikum.fds.services.restaurant.RestaurantService;
+import bg.tusofia.fcst.ksi.practikum.fds.services.restaurant.RoleService;
+import bg.tusofia.fcst.ksi.practikum.fds.services.user.UserService;
 import bg.tusofia.fcst.ksi.practikum.fds.utilities.BaseMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

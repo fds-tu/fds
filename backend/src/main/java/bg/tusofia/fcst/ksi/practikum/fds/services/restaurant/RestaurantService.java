@@ -1,6 +1,6 @@
-package bg.tusofia.fcst.ksi.practikum.fds.services;
+package bg.tusofia.fcst.ksi.practikum.fds.services.restaurant;
 
-import bg.tusofia.fcst.ksi.practikum.fds.authorizers.RestaurantServiceAuthorizer;
+import bg.tusofia.fcst.ksi.practikum.fds.authorizers.restaurant.RestaurantServiceAuthorizer;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.Role;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Restaurant;

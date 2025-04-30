@@ -1,6 +1,6 @@
-package bg.tusofia.fcst.ksi.practikum.fds.services;
+package bg.tusofia.fcst.ksi.practikum.fds.services.user;
 
-import bg.tusofia.fcst.ksi.practikum.fds.authorizers.UserServiceAuthorizer;
+import bg.tusofia.fcst.ksi.practikum.fds.authorizers.user.UserServiceAuthorizer;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.user.UserJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.user.UserPagingRepository;

@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.controllers;
+package bg.tusofia.fcst.ksi.practikum.fds.controllers.restaurant;
 
 
 import bg.tusofia.fcst.ksi.practikum.fds.controllers.base.BaseRestController;
@@ -8,7 +8,7 @@ import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.restaurants.Restaur
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Restaurant;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantPagingRepository;
-import bg.tusofia.fcst.ksi.practikum.fds.services.RestaurantService;
+import bg.tusofia.fcst.ksi.practikum.fds.services.restaurant.RestaurantService;
 import bg.tusofia.fcst.ksi.practikum.fds.utilities.BaseMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;

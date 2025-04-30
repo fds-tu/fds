@@ -1,11 +1,11 @@
-package bg.tusofia.fcst.ksi.practikum.fds.controllers;
+package bg.tusofia.fcst.ksi.practikum.fds.controllers.auth;
 
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.requests.authentication.CreateAccessRequest;
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.requests.authentication.GetAccessRequest;
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.requests.authentication.TokenPair;
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.entities.SuccessResponseEntity;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
-import bg.tusofia.fcst.ksi.practikum.fds.services.Ipv4AddressService;
+import bg.tusofia.fcst.ksi.practikum.fds.services.ipv4.Ipv4AddressService;
 import bg.tusofia.fcst.ksi.practikum.fds.services.authentication.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

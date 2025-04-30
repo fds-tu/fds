@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.authorizers;
+package bg.tusofia.fcst.ksi.practikum.fds.authorizers.user;
 
 import bg.tusofia.fcst.ksi.practikum.fds.authorizers.base.BaseAuthorizer;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;

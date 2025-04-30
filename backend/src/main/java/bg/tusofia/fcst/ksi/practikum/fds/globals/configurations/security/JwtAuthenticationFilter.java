@@ -2,7 +2,7 @@ package bg.tusofia.fcst.ksi.practikum.fds.globals.configurations.security;
 
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.ResourceNotFoundException;
-import bg.tusofia.fcst.ksi.practikum.fds.repositories.SessionRepository;
+import bg.tusofia.fcst.ksi.practikum.fds.repositories.auth.SessionRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.user.UserJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.services.authentication.JwtService;
 import io.jsonwebtoken.Claims;

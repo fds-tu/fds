@@ -1,4 +1,4 @@
-package bg.tusofia.fcst.ksi.practikum.fds.repositories;
+package bg.tusofia.fcst.ksi.practikum.fds.repositories.auth;
 
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.Session;
 import jakarta.validation.constraints.NotBlank;
