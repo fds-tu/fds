@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class RoleAuthorizer extends BaseAuthorizer<Role> {
-    public RoleAuthorizer(AuthService authService) {
+public class RoleServiceAuthorizer extends BaseAuthorizer<Role> {
+    public RoleServiceAuthorizer(AuthService authService) {
         super(authService);
     }
 

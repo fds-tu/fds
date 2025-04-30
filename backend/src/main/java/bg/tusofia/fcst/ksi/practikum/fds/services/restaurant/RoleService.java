@@ -3,6 +3,7 @@ package bg.tusofia.fcst.ksi.practikum.fds.services.restaurant;
 import bg.tusofia.fcst.ksi.practikum.fds.authorizers.base.BaseAuthorizer;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.Role;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.resources.Restaurant;
+import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.InvalidResourceDeletionException;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.role.RoleJpaRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.role.RolePagingRepository;
@@ -21,13 +22,17 @@ public class RoleService extends BaseService<Role, Long, RoleJpaRepository, Role
     }
 
     @Override
-    protected void deleteResourceInternal(Long resourceId, List<Object> parentResources) {
+    protected void deleteResourceInternal(Role resource, List<Object> parentResources) {
         Restaurant restaurant = (Restaurant) parentResources.getFirst();
 
-        restaurant.removeRole(getResourceById(resourceId));
+        if(!resource.getSecondary().getId().equals(restaurant.getId())) {
+            throw new InvalidResourceDeletionException(this.resourceName);
+        }
+
+        restaurant.removeRole(getResourceById(resource.getId()));
 
         restaurantJpaRepository.save(restaurant);
 
-        super.deleteResourceInternal(resourceId, parentResources);
+        super.deleteResourceInternal(resource, parentResources);
     }
 }

@@ -22,7 +22,7 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
     protected final JR jpaRepository;
     protected final PR pagingRepository;
     protected final BaseAuthorizer<R> authorizer;
-    private final String resourceName;
+    protected final String resourceName;
 
     public final R getResourceById(ID id) {
         return jpaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(resourceName, "Id", id.toString()));
@@ -48,8 +48,8 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
         return resource;
     }
 
-    protected void deleteResourceInternal(ID resourceId, List<Object> parentResources) {
-        jpaRepository.deleteById(resourceId);
+    protected void deleteResourceInternal(R resource, List<Object> parentResources) {
+        jpaRepository.delete(resource);
     }
 
 
@@ -86,7 +86,7 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
         R resource = getResourceById(resourceId);
         User user = this.authorizer.authorize(parentResources, ResourceAccessType.DELETE_SPECIFIC, resource, request);
 
-        deleteResourceInternal(resourceId, parentResources);
+        deleteResourceInternal(resource, parentResources);
 
         return onDeleteResource(resource, user);
     }
