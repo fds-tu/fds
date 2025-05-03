@@ -50,7 +50,7 @@ public class RestaurantProductService extends BaseService<Product, Long, Product
     @Override
     protected Product editResourceInternal(Product resource, HttpServletRequest request, List<Object> parentResources) {
         if(!resource.getRestaurant().getId().equals(((Restaurant) parentResources.getFirst()).getId())) {
-            throw new InvalidResourceEditingException("Product");
+            throw new InvalidResourceEditingException(this.resourceName);
         }
 
         return super.editResourceInternal(resource, request, parentResources);
@@ -59,7 +59,7 @@ public class RestaurantProductService extends BaseService<Product, Long, Product
     @Override
     protected void deleteResourceInternal(Product resource, List<Object> parentResources) {
         if(!resource.getRestaurant().getId().equals(((Restaurant) parentResources.getFirst()).getId())) {
-            throw new InvalidResourceDeletionException("Product");
+            throw new InvalidResourceDeletionException(this.resourceName);
         }
 
         super.deleteResourceInternal(resource, parentResources);

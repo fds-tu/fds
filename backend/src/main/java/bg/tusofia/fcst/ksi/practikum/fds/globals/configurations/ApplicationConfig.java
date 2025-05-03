@@ -1,6 +1,11 @@
 package bg.tusofia.fcst.ksi.practikum.fds.globals.configurations;
 
+import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.category.CategoryResponse;
+import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.restaurants.AllergenDto;
 import bg.tusofia.fcst.ksi.practikum.fds.data.dtos.responses.restaurants.RoleDto;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.ProductToAllergen;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.ProductToCategory;
+import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.RestaurantToCategory;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.Role;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.ResourceNotFoundException;
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.user.UserJpaRepository;
@@ -47,6 +52,29 @@ public class ApplicationConfig {
             }
         });
 
+        modelMapper.addMappings(new PropertyMap<ProductToAllergen, AllergenDto>() {
+            @Override
+            protected void configure() {
+                map(source.getSecondary().getId(), destination.getId());
+                map(source.getSecondary().getName(), destination.getName());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<ProductToCategory, CategoryResponse>() {
+            @Override
+            protected void configure() {
+                map(source.getSecondary().getId(), destination.getId());
+                map(source.getSecondary().getName(), destination.getName());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<RestaurantToCategory, CategoryResponse>() {
+            @Override
+            protected void configure() {
+                map(source.getSecondary().getId(), destination.getId());
+                map(source.getSecondary().getName(), destination.getName());
+            }
+        });
         return modelMapper;
     };
 

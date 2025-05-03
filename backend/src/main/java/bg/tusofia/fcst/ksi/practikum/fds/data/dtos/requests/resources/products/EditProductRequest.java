@@ -3,6 +3,8 @@ package bg.tusofia.fcst.ksi.practikum.fds.data.dtos.requests.resources.products;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class EditProductRequest {
     @NotBlank(message = "Product name cannot be blank")
@@ -12,4 +14,8 @@ public class EditProductRequest {
     @Min(value = 50, message = "Product weight must be at least 50 grams")
     @Max(value = 2000, message = "Product weight must be at most 2 kg")
     private Integer weight;
+
+    private List<Long> categoryIds;
+
+    private List<Long> allergenIds;
 }

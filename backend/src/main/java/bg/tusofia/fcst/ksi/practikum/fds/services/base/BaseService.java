@@ -5,7 +5,7 @@ import bg.tusofia.fcst.ksi.practikum.fds.data.entities.base.BaseEntity;
 import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.authentication.User;
 import bg.tusofia.fcst.ksi.practikum.fds.enums.authorization.ResourceAccessType;
 import bg.tusofia.fcst.ksi.practikum.fds.exceptions.rest.ResourceNotFoundException;
-import bg.tusofia.fcst.ksi.practikum.fds.utilities.interfaces.EditResourceCallback;
+import bg.tusofia.fcst.ksi.practikum.fds.utilities.interfaces.*;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +26,23 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
 
     public final R getResourceById(ID id) {
         return jpaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(resourceName, "Id", id.toString()));
+    }
+
+    public final List<R> getResourcesByIds(List<ID> ids) {
+        return ids.stream().map(this::getResourceById).toList();
+    }
+
+    public <T, RS> void registerRelations(ClearResourceCallback<R> clearResourceCallback, CreateRelationCallback<T, R, RS> createRelationCallback, GetResourcesByIdsCallback<RS> callback, R primary, List<Long> ids, SetRelationsCallback<List<T>> setRelationsCallback) {
+        if (ids == null) {
+            return;
+        }
+        R unsaved = clearResourceCallback.call();
+        if(unsaved != null) {
+            jpaRepository.save(unsaved);
+        }
+
+        List<RS> secondaries = callback.call(ids);
+        setRelationsCallback.call(secondaries.stream().map(s -> createRelationCallback.call(primary, s)).toList());
     }
 
     protected R getResourceInternal(ID resourceId, List<Object> parentResources) {
