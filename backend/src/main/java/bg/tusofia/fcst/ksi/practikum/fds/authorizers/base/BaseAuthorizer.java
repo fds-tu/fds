@@ -12,7 +12,7 @@ import java.util.List;
 @MappedSuperclass
 @RequiredArgsConstructor
 public abstract class BaseAuthorizer<R> {
-    private final AuthService authService;
+    protected final AuthService authService;
 
     public User authorize(List<Object> parentResources, ResourceAccessType accessType, R resource, HttpServletRequest request) {
         return authService.getCurrentUser(request);

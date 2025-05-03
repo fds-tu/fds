@@ -87,6 +87,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     public ErrorResponseEntity<ExceptionDto> handleException(RuntimeException ex) {
+        ex.printStackTrace();
         return this.handleException(new FdsRestException("RuntimeException", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null));
     }
 

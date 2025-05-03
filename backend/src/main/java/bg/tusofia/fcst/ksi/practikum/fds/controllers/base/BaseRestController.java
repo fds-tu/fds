@@ -50,7 +50,6 @@ public abstract class BaseRestController<R extends BaseEntity<Long>, C, E, Re, S
 
     public ResponseEntity<?> getAllResources(@RequestParam(defaultValue = "0") @Min(0) @Valid Integer page, HttpServletRequest request) {
         List<Re> responses =  service.getResources(page, 20, "createdDate", request, preAuthorize(request)).stream().map(this.mapper::map).toList();
-
         return this.generateResponse(responses);
     }
 
