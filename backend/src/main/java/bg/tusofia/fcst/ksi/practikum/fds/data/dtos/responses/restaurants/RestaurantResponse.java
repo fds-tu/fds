@@ -9,6 +9,5 @@ import java.util.List;
 public class RestaurantResponse {
     private Long id;
     private String name;
-    private List<RoleDto> roles;
     private List<CategoryResponse> categories;
 }

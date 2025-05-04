@@ -13,10 +13,8 @@ import bg.tusofia.fcst.ksi.practikum.fds.services.allergen.AllergenService;
 import bg.tusofia.fcst.ksi.practikum.fds.services.category.CategoryService;
 import bg.tusofia.fcst.ksi.practikum.fds.services.restaurant.RestaurantProductService;
 import bg.tusofia.fcst.ksi.practikum.fds.services.restaurant.RestaurantService;
-import bg.tusofia.fcst.ksi.practikum.fds.utilities.BaseMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +38,9 @@ public class RestaurantProductController
     public RestaurantProductController(RestaurantProductService service, ModelMapper modelMapper, RestaurantService restaurantService, AllergenService allergenService, CategoryService categoryService) {
         super(
                 service,
-                new BaseMapper<>(modelMapper, Product.class, RestaurantProductResponse.class),
+                modelMapper,
+                Product.class,
+                RestaurantProductResponse.class,
                 "/api/v1/resources/restaurants/{restaurantId}/products",
                 List.of(restaurantService)
         );
@@ -63,7 +63,24 @@ public class RestaurantProductController
     @PostMapping("/")
     @Override
     public ResponseEntity<?> createResource(CreateProductRequest createResourceDto, HttpServletRequest request) {
-        Product resource = this.mapper.mapFromCreateDto(createResourceDto);
+        return super.createResource(createResourceDto, request);
+    }
+
+    @PutMapping("/{id}")
+    @Override
+    public ResponseEntity<?> editResource(Long id, EditProductRequest editResourceDto, HttpServletRequest request) {
+        return super.editResource(id, editResourceDto, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @Override
+    public ResponseEntity<?> deleteResource(Long id, HttpServletRequest request) {
+        return super.deleteResource(id, request);
+    }
+
+    @Override
+    protected Product mapFromCreateDto(CreateProductRequest createResourceDto) {
+        Product resource = this.mapper.mapToResource(createResourceDto);
         service.registerRelations(
                 () -> null,
                 ProductToAllergen::generate,
@@ -80,39 +97,27 @@ public class RestaurantProductController
                 createResourceDto.getCategoryIds(),
                 resource::setProductToCategories
         );
-        RestaurantProductResponse response = this.mapper.map(service.createResource(resource, request, preAuthorize(request)));
-        return this.generateResponse(response, HttpStatus.CREATED);
+        return resource;
     }
 
-    @PutMapping("/{id}")
     @Override
-    public ResponseEntity<?> editResource(Long id, EditProductRequest editResourceDto, HttpServletRequest request) {
-        service.editResource(id, (resource) -> {
-            service.registerRelations(
-                    resource::removeAllAllergen,
-                    ProductToAllergen::generate,
-                    allergenService::getResourcesByIds,
-                    resource,
-                    editResourceDto.getAllergenIds(),
-                    resource::addAllergens
-            );
-            service.registerRelations(
-                    resource::removeAllCategories,
-                    ProductToCategory::generate,
-                    categoryService::getResourcesByIds,
-                    resource,
-                    editResourceDto.getCategoryIds(),
-                    resource::addCategories
-            );
-            return this.mapper.map(resource, editResourceDto);
-        }, request, preAuthorize(request));
-
-        return this.generateResponse(null, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    @Override
-    public ResponseEntity<?> deleteResource(Long id, HttpServletRequest request) {
-        return super.deleteResource(id, request);
+    protected Product mapFromEditDto(Product resource, EditProductRequest editResourceDto) {
+        service.registerRelations(
+                resource::removeAllAllergen,
+                ProductToAllergen::generate,
+                allergenService::getResourcesByIds,
+                resource,
+                editResourceDto.getAllergenIds(),
+                resource::addAllergens
+        );
+        service.registerRelations(
+                resource::removeAllCategories,
+                ProductToCategory::generate,
+                categoryService::getResourcesByIds,
+                resource,
+                editResourceDto.getCategoryIds(),
+                resource::addCategories
+        );
+        return this.mapper.map(resource, editResourceDto);
     }
 }

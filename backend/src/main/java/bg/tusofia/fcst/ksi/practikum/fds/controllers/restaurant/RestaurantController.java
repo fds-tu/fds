@@ -11,10 +11,8 @@ import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantJpaRe
 import bg.tusofia.fcst.ksi.practikum.fds.repositories.restaurant.RestaurantPagingRepository;
 import bg.tusofia.fcst.ksi.practikum.fds.services.category.CategoryService;
 import bg.tusofia.fcst.ksi.practikum.fds.services.restaurant.RestaurantService;
-import bg.tusofia.fcst.ksi.practikum.fds.utilities.BaseMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +33,9 @@ public class RestaurantController
     public RestaurantController(RestaurantService service, ModelMapper mapper, CategoryService categoryService) {
         super(
             service,
-            new BaseMapper<>(mapper, Restaurant.class, RestaurantResponse.class)
+            mapper,
+            Restaurant.class,
+            RestaurantResponse.class
         );
         this.categoryService = categoryService;
     }
@@ -55,7 +55,24 @@ public class RestaurantController
     @PostMapping("/")
     @Override
     public ResponseEntity<?> createResource(CreateRestaurantRequest createResourceDto, HttpServletRequest request) {
-        Restaurant resource = this.mapper.mapFromCreateDto(createResourceDto);
+        return super.createResource(createResourceDto, request);
+    }
+
+    @PutMapping("/{id}")
+    @Override
+    public ResponseEntity<?> editResource(Long id, EditRestaurantRequest editResourceDto, HttpServletRequest request) {
+        return super.editResource(id, editResourceDto, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @Override
+    public ResponseEntity<?> deleteResource(Long id, HttpServletRequest request) {
+        return super.deleteResource(id, request);
+    }
+
+    @Override
+    protected Restaurant mapFromCreateDto(CreateRestaurantRequest createResourceDto) {
+        Restaurant resource = this.mapper.mapToResource(createResourceDto);
         service.registerRelations(
                 () -> null,
                 RestaurantToCategory::generate,
@@ -64,33 +81,19 @@ public class RestaurantController
                 createResourceDto.getCategoryIds(),
                 resource::addCategories
         );
-
-        RestaurantResponse response = this.mapper.map(service.createResource(resource, request, preAuthorize(request)));
-
-        return this.generateResponse(response, HttpStatus.CREATED);
+        return resource;
     }
 
-    @PutMapping("/{id}")
     @Override
-    public ResponseEntity<?> editResource(Long id, EditRestaurantRequest editResourceDto, HttpServletRequest request) {
-        service.editResource(id, (resource) -> {
-            service.registerRelations(
-                    resource::removeAllCategories,
-                    RestaurantToCategory::generate,
-                    categoryService::getResourcesByIds,
-                    resource,
-                    editResourceDto.getCategoryIds(),
-                    resource::addCategories
-            );
-            return this.mapper.map(resource, editResourceDto);
-        }, request, preAuthorize(request));
-
-        return this.generateResponse(null, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    @Override
-    public ResponseEntity<?> deleteResource(Long id, HttpServletRequest request) {
-        return super.deleteResource(id, request);
+    protected Restaurant mapFromEditDto(Restaurant resource, EditRestaurantRequest editResourceDto) {
+        service.registerRelations(
+                resource::removeAllCategories,
+                RestaurantToCategory::generate,
+                categoryService::getResourcesByIds,
+                resource,
+                editResourceDto.getCategoryIds(),
+                resource::addCategories
+        );
+        return this.mapper.map(resource, editResourceDto);
     }
 }
