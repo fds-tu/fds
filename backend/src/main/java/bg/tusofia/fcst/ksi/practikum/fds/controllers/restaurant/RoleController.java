@@ -57,7 +57,7 @@ public class RoleController
     protected Role mapFromCreateDto(CreateRoleRequest createResourceDto) {
         Role role = new Role();
         role.setRestaurantAccessType(createResourceDto.getAccessType());
-        role.setPrimary(userService.getResourceById(createResourceDto.getUserId()));
+        role.setPrimary(userService.getUserByUsername(createResourceDto.getUsername()));
         return role;
     }
 }
