@@ -28,24 +28,22 @@ public abstract class BaseRestController<R extends BaseEntity<Long>, C, E, Re, S
     }
 
     public ResponseEntity<?> createResource(@RequestBody C createResourceDto, HttpServletRequest request) {
-        R resource = this.mapFromCreateDto(createResourceDto);
-        Re response = this.mapper.map(service.createResource(resource, request, preAuthorize(request)));
+        List<Object> parentResources = preAuthorize(request);
+        R resource = this.mapFromCreateDto(createResourceDto, parentResources);
+        Re response = this.mapper.map(service.createResource(resource, request, parentResources));
 
         return this.generateResponse(response, HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> editResource(@PathVariable Long id, @RequestBody @Valid E editResourceDto, HttpServletRequest request) {
-        service.editResource(id, (resource) -> this.mapFromEditDto(resource, editResourceDto), request, preAuthorize(request));
-
-        return this.generateResponse(null, HttpStatus.OK);
+        return this.generateResponse( service.editResource(id, (resource) -> this.mapFromEditDto(resource, editResourceDto), request, preAuthorize(request)), HttpStatus.OK);
     }
 
     public ResponseEntity<?> deleteResource(@PathVariable @Valid Long id, HttpServletRequest request) {
-        service.deleteResource(id, request, preAuthorize(request));
-        return this.generateResponse(null, HttpStatus.NO_CONTENT);
+        return this.generateResponse(service.deleteResource(id, request, preAuthorize(request)), HttpStatus.NO_CONTENT);
     }
 
-    protected R mapFromCreateDto(C createResourceDto) {
+    protected R mapFromCreateDto(C createResourceDto, List<Object> parentResources) {
         return this.mapper.map(createResourceDto, this.resourceClass);
     }
 

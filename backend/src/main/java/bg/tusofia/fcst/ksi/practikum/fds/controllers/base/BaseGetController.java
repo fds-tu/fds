@@ -56,6 +56,11 @@ public abstract class BaseGetController<R extends BaseEntity<Long>, Re, S extend
         return this.generateResponse(responses);
     }
 
+    public ResponseEntity<?> getMyResources(@RequestParam(defaultValue = "0") @Min(0) @Valid Integer page, HttpServletRequest request) {
+        List<Re> responses = service.getMyResources(page, 20, "createdDate", request, preAuthorize(request)).stream().map(this.mapper::map).toList();
+        return this.generateResponse(responses);
+    }
+
     protected <T> SuccessResponseEntity<T> generateResponse(T data) {
         return new SuccessResponseEntity<>(data, HttpStatus.OK);
     }

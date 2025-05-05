@@ -64,4 +64,10 @@ public class RestaurantProductService extends BaseService<Product, Long, Product
 
         super.deleteResourceInternal(resource, parentResources);
     }
+
+    @Override
+    protected List<Product> getResourcesByIdsInternal(List<Long> ids, List<Object> parentResources) {
+        Restaurant restaurant = (Restaurant) parentResources.getFirst();
+        return ids.stream().map(id -> jpaRepository.findFirstByRestaurant_IdAndId(restaurant.getId(), id)).toList();
+    }
 }

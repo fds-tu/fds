@@ -79,7 +79,7 @@ public class RestaurantProductController
     }
 
     @Override
-    protected Product mapFromCreateDto(CreateProductRequest createResourceDto) {
+    protected Product mapFromCreateDto(CreateProductRequest createResourceDto, List<Object> parentResources) {
         Product resource = this.mapper.mapToResource(createResourceDto);
         service.registerRelations(
                 () -> null,

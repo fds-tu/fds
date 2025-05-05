@@ -54,7 +54,7 @@ public class RoleController
     }
 
     @Override
-    protected Role mapFromCreateDto(CreateRoleRequest createResourceDto) {
+    protected Role mapFromCreateDto(CreateRoleRequest createResourceDto, List<Object> parentResources) {
         Role role = new Role();
         role.setRestaurantAccessType(createResourceDto.getAccessType());
         role.setPrimary(userService.getUserByUsername(createResourceDto.getUsername()));

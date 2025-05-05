@@ -6,13 +6,17 @@ import bg.tusofia.fcst.ksi.practikum.fds.data.entities.concrete.relations.Delive
 import bg.tusofia.fcst.ksi.practikum.fds.enums.delivery.DeliveryStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
 public class Delivery extends BaseAddressable<Long> {
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval =  true, mappedBy = "primary")
-    private List<DeliveryToProduct> product;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval =  true, mappedBy = "primary")
+    private List<DeliveryToProduct> products;
 
     @ManyToOne
     @JoinColumn(name = "courier_id")
@@ -25,4 +29,8 @@ public class Delivery extends BaseAddressable<Long> {
     @Enumerated(EnumType.STRING)
     @NotNull
     private DeliveryStatus deliveryStatus;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 }

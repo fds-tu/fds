@@ -27,7 +27,7 @@ public class CountryRegionCentreService extends BaseService<PopulationCentre, Lo
         Country country = (Country) parentResources.getFirst();
         Region region = (Region) parentResources.get(1);
         if(!region.getCountry().getId().equals(country.getId())) {
-            throw new InvalidResourceAccessTypeException(ResourceAccessType.GET_SPECIFIC);
+            throw new InvalidResourceAccessTypeException(this.resourceName, ResourceAccessType.GET_SPECIFIC);
         }
 
         return this.jpaRepository.findFirstByRegion_IdAndId(region.getId(), resourceId).orElseThrow(() -> new ResourceNotFoundException("Population Centre", "Id", resourceId.toString()));
@@ -38,7 +38,7 @@ public class CountryRegionCentreService extends BaseService<PopulationCentre, Lo
         Country country = (Country) parentResources.getFirst();
         Region region = (Region) parentResources.get(1);
         if(!region.getCountry().getId().equals(country.getId())) {
-            throw new InvalidResourceAccessTypeException(ResourceAccessType.GET_ALL);
+            throw new InvalidResourceAccessTypeException(this.resourceName, ResourceAccessType.GET_ALL);
         }
 
         return this.pagingRepository.findAllByRegion_Id(region.getId(), PageRequest.of(page, size, Sort.by("createdDate")));

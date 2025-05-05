@@ -16,7 +16,7 @@ public class OnlyGetAuthorizer<R> extends BaseAuthorizer<R> {
     @Override
     public User authorize(List<Object> parentResources, ResourceAccessType accessType, R resource, HttpServletRequest request) {
         if(!(List.of(ResourceAccessType.GET_ALL, ResourceAccessType.GET_SPECIFIC).contains(accessType))) {
-            throw new InvalidResourceAccessTypeException(accessType);
+            throw new InvalidResourceAccessTypeException("resource", accessType);
         }
 
         return super.authorize(parentResources, accessType, resource, request);
