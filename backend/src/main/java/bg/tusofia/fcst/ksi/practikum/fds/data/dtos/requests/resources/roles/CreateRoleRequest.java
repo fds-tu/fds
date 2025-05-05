@@ -7,8 +7,8 @@ import lombok.Data;
 
 @Data
 public class CreateRoleRequest {
-    @NotNull(message = "User Id cannot be null")
-    private Long userId;
+    @NotNull(message = "Username cannot be null")
+    private String username;
 
     @EnumValid(message = "Access type must be a valid value", enumClass = RestaurantAccessType.class)
     private RestaurantAccessType accessType;

@@ -24,12 +24,8 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
     protected final BaseAuthorizer<R> authorizer;
     protected final String resourceName;
 
-    public final R getResourceById(ID id) {
-        return jpaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(resourceName, "Id", id.toString()));
-    }
-
-    public final List<R> getResourcesByIds(List<ID> ids) {
-        return ids.stream().map(this::getResourceById).toList();
+    protected List<R> getResourcesByIdsInternal(List<ID> ids, List<Object> parentResources) {
+        return this.getResourcesByIds(ids);
     }
 
     public <T, RS> void registerRelations(ClearResourceCallback<R> clearResourceCallback, CreateRelationCallback<T, R, RS> createRelationCallback, GetResourcesByIdsCallback<RS> callback, R primary, List<Long> ids, SetRelationsCallback<List<T>> setRelationsCallback) {
@@ -53,6 +49,10 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
         return pagingRepository.findAll(PageRequest.of(page, size, Sort.by(sortBy))).stream().toList();
     }
 
+    protected List<R> getMyResourcesInternal(int page, int size, String sortBy, List<Object> parentResources, User user) {
+        return getResourcesInternal(page, size, sortBy, parentResources);
+    }
+
     protected R createResourceInternal(R resource, HttpServletRequest request, List<Object> parentResources) {
         save(resource);
 
@@ -69,6 +69,17 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
         jpaRepository.delete(resource);
     }
 
+    public final R getResourceById(ID id) {
+        return jpaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(resourceName, "Id", id.toString()));
+    }
+
+    public final List<R> getResourcesByIds(List<ID> ids) {
+        return ids.stream().map(this::getResourceById).toList();
+    }
+
+    public final List<R> getResourcesByIds(List<ID> ids, List<Object> parentResources) {
+        return this.getResourcesByIdsInternal(ids, parentResources);
+    }
 
     public final R getResource(ID resourceId, HttpServletRequest request, List<Object> parentResources) {
         R resource = getResourceInternal(resourceId, parentResources);
@@ -80,6 +91,12 @@ public abstract class BaseService<R extends BaseEntity<ID>, ID, JR extends JpaRe
     public final List<R> getResources(int page, int size, String sortBy, HttpServletRequest request, List<Object> parentResources) {
         User user = authorizer.authorize(parentResources, ResourceAccessType.GET_ALL, null, request);
         List<R> resources = getResourcesInternal(page, size, sortBy, parentResources);
+        return onGetResources(resources, user);
+    }
+
+    public final List<R> getMyResources(int page, int size, String sortBy, HttpServletRequest request, List<Object> parentResources) {
+        User user = authorizer.authorize(parentResources, ResourceAccessType.GET_MINE, null, request);
+        List<R> resources = getMyResourcesInternal(page, size, sortBy, parentResources, user);
         return onGetResources(resources, user);
     }
 

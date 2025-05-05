@@ -25,7 +25,7 @@ public class RoleService extends BaseService<Role, Long, RoleJpaRepository, Role
     @Override
     protected Role createResourceInternal(Role resource, HttpServletRequest request, List<Object> parentResources) {
         Restaurant restaurant = (Restaurant) parentResources.getFirst();
-
+        resource.setSecondary(restaurant);
         restaurant.addRole(resource);
 
         save(resource);

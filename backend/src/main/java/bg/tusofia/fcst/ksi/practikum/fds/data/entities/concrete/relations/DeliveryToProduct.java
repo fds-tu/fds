@@ -12,4 +12,11 @@ import jakarta.persistence.UniqueConstraint;
         @UniqueConstraint(columnNames = {"primary_id", "secondary_id"})
 })
 public class DeliveryToProduct extends ManyToMany<Delivery, Product> {
+    public static DeliveryToProduct generate(Delivery delivery, Product product) {
+        DeliveryToProduct deliveryToProduct = new DeliveryToProduct();
+        deliveryToProduct.setPrimary(delivery);
+        deliveryToProduct.setSecondary(product);
+
+        return deliveryToProduct;
+    }
 }

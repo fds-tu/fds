@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 @RequiredArgsConstructor
-public class BaseMapper<C, E, R, Re> {
+public class BaseMapper<R, Re> {
     private final ModelMapper modelMapper;
     private final Class<R> input;
     private final Class<Re> output;
@@ -13,18 +13,14 @@ public class BaseMapper<C, E, R, Re> {
         return this.modelMapper.map(source, destination);
     }
 
+    public <T> R mapToResource(T source) {
+        return this.modelMapper.map(source, input);
+    }
+
+    public <T1> R map(R resource, T1 source) {
+        this.modelMapper.map(source, resource);
+        return resource;
+    }
+
     public Re map(R source) { return this.modelMapper.map(source, output); }
-
-    public R mapFromCreateDto(C createResourceDto) {
-        return this.modelMapper.map(createResourceDto, input);
-    }
-
-    public R mapFromEditDto(E editResourceDto) {
-        return this.modelMapper.map(editResourceDto, input);
-    }
-
-    public R map(R source, E editResourceDto) {
-        this.modelMapper.map(editResourceDto, source);
-        return source;
-    }
 }
